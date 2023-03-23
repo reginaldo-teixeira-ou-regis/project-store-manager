@@ -13,6 +13,12 @@ const findById = async (id) => {
   return products;
 };
 
+const findByName = async (q) => {
+  const query = 'SELECT * FROM products WHERE name LIKE ?';
+  const [products] = await connection.execute(query, [`%${q}%`]);
+  return products;
+};
+
 const create = async ({ name }) => {
   const query = 'INSERT INTO StoreManager.products (name) VALUE (?)';
   const [{ insertId }] = await connection.execute(query, [name]);
@@ -22,5 +28,6 @@ const create = async ({ name }) => {
 module.exports = {
   findAll,
   findById,
+  findByName,
   create,
 };

@@ -18,6 +18,15 @@ const findById = async (req, res) => {
   res.status(200).json(message);
 };
 
+const findByName = async (req, res) => {
+  const { q } = req.query;
+  const { type, message } = await productService.findByName(q);
+
+  if (type) return res.status(errorMap.mapError(type)).json({ message });
+
+  res.status(200).json(message);
+};
+
 const create = async (req, res) => {
   const { name } = req.body;
 
@@ -31,5 +40,6 @@ const create = async (req, res) => {
 module.exports = {
   findAll,
   findById,
+  findByName,
   create,
 };
