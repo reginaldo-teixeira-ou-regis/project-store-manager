@@ -12,7 +12,7 @@ const productList = [
     name: "Escudo do Capitão América",
   },
 
-];
+];;
 
 module.exports = {
   productList,

@@ -14,6 +14,18 @@ const productList = [
 
 ];
 
+const searchProductByName = [{
+  id: 4,
+  name: "Armadura do Homem de Ferro",
+}];
+
+const newProduct = {
+  id: 4,
+  name: "Armadura do Homem de Ferro",
+};
+
 module.exports = {
   productList,
+  searchProductByName,
+  newProduct,
 };

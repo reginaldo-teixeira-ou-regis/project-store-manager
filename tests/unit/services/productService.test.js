@@ -40,4 +40,46 @@ describe("Checking product service", function () {
       sinon.restore();
     });
   });
+
+  describe("Search product by name", function () {
+    it("Returns the list of all products if the 'q' does not exist", async function () {
+      sinon.stub(productModel, "findAll").resolves(productList);
+      const result = await productService.findByName();
+      expect(result.type).to.equal(null);
+      expect(result.message).to.equal(productList);
+    });
+
+    it("Returns the product if the ID exists", async function () {
+      sinon.stub(productModel, "findByName").resolves([productList[0]]);
+      const result = await productService.findByName('marte');
+      expect(result.type).to.equal(null);
+      expect(result.message).to.deep.equal([productList[0]]);
+    });
+
+    afterEach(function () {
+      sinon.restore();
+    });
+  });
+
+  describe("Register a new product", function () {
+    it("Returns an error when trying to register an invalid name", async function () {
+      const result = await productService.create('abc');
+      expect(result.type).to.equal("INVALID_VALUE");
+      expect(result.message).to.equal(
+        '"name" length must be at least 5 characters long'
+      );
+    });
+
+    it("Returns the ID of registered product", async function () {
+      sinon.stub(productModel, "create").resolves(1);
+      sinon.stub(productModel, "findById").resolves(productList[0]);
+      const result = await productService.create("Martelo de Thor");
+      expect(result.type).to.equal(null);
+      expect(result.message).to.deep.equal(productList[0]);
+    });
+
+    afterEach(function () {
+      sinon.restore();
+    });
+  });
 });
