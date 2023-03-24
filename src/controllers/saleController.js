@@ -14,7 +14,7 @@ const create = async (req, res) => {
 const findAll = async (req, res) => {
   const { type, message } = await saleService.findAll();
 
-  if (type) return res.status(errorMap.mapError(type)).json(message);
+  if (type) return res.status(errorMap.mapError(type)).json({ message });
 
   res.status(200).json(message);
 };

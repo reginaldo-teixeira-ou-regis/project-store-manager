@@ -26,7 +26,7 @@ const validateNewSale = async (sales) => {
     sales.map(async (sale) => productModel.findById(sale.productId)),
   );
 
-  const productMissing = product.some((p) => p === undefined);
+  const productMissing = product.some((prd) => prd === undefined);
 
   if (productMissing) {
     return { type: 'PRODUCT_NOT_FOUND', message: 'Product not found' };
