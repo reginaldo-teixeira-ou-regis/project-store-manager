@@ -1,7 +1,7 @@
 const { expect } = require("chai");
 const sinon = require("sinon");
 const { saleService } = require("../../../src/services");
-const { saleModel, saleProductModel } = require("../../../src/models");
+const { saleModel } = require("../../../src/models");
 const {
   salesList,
   salesIdList,
@@ -27,14 +27,14 @@ describe("Checking sale service", function () {
     });
 
     it("Returns an error if the product does not exist", async function () {
-      sinon.stub(saleModel, "findById").resolves([]);
+      sinon.stub(saleModel, "findByIdJoinSalesProduct").resolves([]);
       const result = await saleService.findById(1);
       expect(result.type).to.equal("SALE_NOT_FOUND");
       expect(result.message).to.equal("Sale not found");
     });
 
     it("Retrieving a sale by its id", async function () {
-      sinon.stub(saleModel, "findById").resolves([salesIdList]);
+      sinon.stub(saleModel, "findByIdJoinSalesProduct").resolves([salesIdList]);
       const result = await saleService.findById(1);
       expect(result.type).to.equal(null);
       expect(result.message).to.deep.equal([salesIdList]);
@@ -60,8 +60,8 @@ describe("Checking sale service", function () {
     });
 
     it("Returns the ID of registered product", async function () {
-      sinon.stub(saleModel, "create").resolves(1);
-      sinon.stub(saleProductModel, "findById").resolves(3);
+      sinon.stub(saleModel, "insertValueSale").resolves(1);
+      sinon.stub(saleModel, "findByIdValueSale").resolves(3);
       const result = await saleService.create(newSale);
       expect(result.type).to.equal(null);
       expect(result.message).to.deep.equal(newSaleProduct);
