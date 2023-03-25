@@ -1,6 +1,5 @@
 const { saleModel } = require('../models');
-const { validateNewSale } = require('./validations/validationsInputValues');
-const { validateId } = require('./validations/validationsInputValues');
+const { validateNewSale, validateId } = require('./validations/validationsInputValues');
 
 const create = async (sales) => {
   const error = await validateNewSale(sales);
@@ -8,11 +7,9 @@ const create = async (sales) => {
 
   const saleId = await saleModel.insertDateSale();
 
-  await Promise.all(
+  const newSale = await Promise.all(
     sales.map(async (sale) => saleModel.insertValueSale(sale, saleId)),
   );
-
-  const newSale = await saleModel.findByIdValueSale(saleId);
 
   return { type: null, message: { id: saleId, itemsSold: newSale } };
 };

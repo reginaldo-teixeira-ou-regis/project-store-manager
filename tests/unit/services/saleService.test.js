@@ -1,13 +1,14 @@
 const { expect } = require("chai");
 const sinon = require("sinon");
 const { saleService } = require("../../../src/services");
-const { saleModel } = require("../../../src/models");
+const { saleModel, productModel } = require("../../../src/models");
 const {
   salesList,
   salesIdList,
   newSaleProduct,
   newSale
 } = require("./mocks/saleService.mock");
+const validations = require('../../../src/services/validations/validationsInputValues')
 
 describe("Checking sale service", function () {
   describe("", function () {
@@ -26,7 +27,7 @@ describe("Checking sale service", function () {
       expect(result.message).to.equal('"id" must be a number');
     });
 
-    it("Returns an error if the product does not exist", async function () {
+    it("Returns an error if the sales does not exist", async function () {
       sinon.stub(saleModel, "findByIdJoinSalesProduct").resolves([]);
       const result = await saleService.findById(1);
       expect(result.type).to.equal("SALE_NOT_FOUND");
@@ -59,12 +60,27 @@ describe("Checking sale service", function () {
       );
     });
 
-    it("Returns the ID of registered product", async function () {
-      sinon.stub(saleModel, "insertValueSale").resolves(1);
-      sinon.stub(saleModel, "findByIdValueSale").resolves(3);
+    it("When sending valid data must save successfully", async function () {
+      sinon.stub(saleModel, "insertValueSale")
+        .callsFake(async ({ productId, quantity }) => ({
+        productId, quantity
+      }));
+      sinon.stub(saleModel, "insertDateSale").resolves(2);
+      sinon.stub(validations, "validateNewSale").resolves({ type: false });
       const result = await saleService.create(newSale);
       expect(result.type).to.equal(null);
       expect(result.message).to.deep.equal(newSaleProduct);
+    });
+
+    it("Returns an error if the sales does not exist", async function () {
+      sinon.stub(saleModel, "insertValueSale")
+        .callsFake(async ({ productId, quantity }) => ({
+        productId, quantity
+      }));
+      sinon.stub(saleModel, "insertDateSale").resolves(2);
+      sinon.stub(productModel, "findById").resolves(undefined);
+      const result2 = await saleService.create([{ productId: 999999, quantity: 1 }]);
+      expect(result2.type).to.equal("PRODUCT_NOT_FOUND");
     });
 
     afterEach(function () {

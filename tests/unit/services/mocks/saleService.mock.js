@@ -27,11 +27,15 @@ const newSale  = [
 ];
 
 const newSaleProduct = {
-  id: 3,
+  id: 2,
   itemsSold: [
     {
       productId: 1,
       quantity: 2,
+    },
+    {
+      productId: 3,
+      quantity: 4
     }
   ]
 };

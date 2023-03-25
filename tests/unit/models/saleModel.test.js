@@ -43,8 +43,8 @@ describe("Tests of unit of the Sale Model", function () {
 
     it("Registering a new sale", async function () {
       sinon.stub(connection, "execute").resolves([{ insertId: 1 }]);
-      const result = await saleModel.insertValueSale(newSaleProduct);
-      expect(result).to.equal(1);
+      const result = await saleModel.insertValueSale(newSaleProduct, 2);
+      expect(result).to.be.deep.equal({...newSaleProduct});
     });
 
     afterEach(function () {
