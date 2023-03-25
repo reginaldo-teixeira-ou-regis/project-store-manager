@@ -3,7 +3,6 @@ const errorMap = require('../utils/errorMap');
 
 const create = async (req, res) => {
   const sales = req.body;
-
   const { type, message } = await saleService.create(sales);
 
   if (type) return res.status(errorMap.mapError(type)).json({ message });

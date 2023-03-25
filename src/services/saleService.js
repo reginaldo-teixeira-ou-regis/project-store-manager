@@ -22,13 +22,13 @@ const findAll = async () => {
 
 const findById = async (id) => {
   const error = validateId(id);
-
   if (error.type) return error;
 
   const sale = await saleModel.findByIdJoinSalesProduct(id);
 
-  if (sale.length === 0) return { type: 'SALE_NOT_FOUND', message: 'Sale not found' };
-
+  if (sale.length === 0) {
+    return { type: 'SALE_NOT_FOUND', message: 'Sale not found' };
+  }
   return { type: null, message: sale };
 };
 
