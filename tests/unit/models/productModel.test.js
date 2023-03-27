@@ -2,7 +2,12 @@ const { expect } = require('chai');
 const sinon = require('sinon');
 const connection = require('../../../src/models/connection');
 const { productModel } = require('../../../src/models');
-const { productList, searchProductByName, newProduct } = require('./mocks/productModel.mock');
+const {
+  productList,
+  searchProductByName,
+  newProduct,
+  updateProduct,
+} = require('./mocks/productModel.mock');
 
 describe('Tests of unit of the Model of the products', function () {
   it('Retrieving the product list', async function () {
@@ -27,6 +32,19 @@ describe('Tests of unit of the Model of the products', function () {
    sinon.stub(connection, "execute").resolves([{ insertId: 4 }]);
    const result = await productModel.create(newProduct);
    expect(result).to.equal(4);
+  });
+
+  it("Updating an existing product", async function () {
+    sinon.stub(connection, 'execute').resolves([{ insertId: 1 }])
+    const result = await productModel.update(updateProduct)
+    expect(result).to.equal(1);
+  });
+
+  it('Deleting an existing product', async () => {
+    sinon.stub(connection, 'execute').resolves([{ insertId: 1 }])
+    const result = await productModel.remove(updateProduct);
+    console.log(result);
+    expect(result).to.equal(undefined);
   });
 
   afterEach(function () {

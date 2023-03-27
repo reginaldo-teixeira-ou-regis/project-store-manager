@@ -82,4 +82,62 @@ describe("Checking product service", function () {
       sinon.restore();
     });
   });
+
+  describe('Updating an existing product', function () {
+    it("Returns an edited product since it already exists", async function () {
+      sinon.stub(productModel, "update").resolves(1);
+      sinon.stub(productModel, "findById").resolves(productList[0]);
+      const result = await productService
+        .update(productList[0].name, productList[0].id);
+      expect(result.type).to.equal(null);
+      expect(result.message).to.deep.equal(productList[0]);
+    });
+
+    it("Returns an error when passing an invalid name", async function () {
+      const result = await productService.update("abc");
+      expect(result.type).to.equal("INVALID_VALUE");
+      expect(result.message)
+        .to.equal('"name" length must be at least 5 characters long');
+    });
+
+    it("Returns an error when trying to update a product that does not exist", async function () {
+      sinon.stub(productModel, "update").resolves(1);
+      sinon.stub(productModel, "findById").resolves(productList[555]);
+      const result = await productService
+        .update(productList[0].name, productList[0].id);
+      expect(result.type).to.equal("PRODUCT_NOT_FOUND");
+      expect(result.message).to.equal("Product not found");
+    });
+
+    afterEach(function () {
+      sinon.restore();
+    });
+  });
+
+  describe('Deleting an existing product', function () {
+    it('Delete a product successfully', async function () {
+      sinon.stub(productModel, "findById").resolves([productList[0]]);
+      sinon.stub(productModel, "remove").resolves();
+      const result = await productService.remove(1);
+      expect(result.type).to.equal(null);
+      expect(result.message).to.deep.equal('');
+    })
+
+    it("Returns an error because the ID does not exist", async function () {
+      sinon.stub(productModel, "findById").resolves(undefined);
+      const result = await productService.remove(99);
+      expect(result.type).to.equal("PRODUCT_NOT_FOUND");
+      expect(result.message).to.deep.equal("Product not found");
+    });
+
+    it("Returns an error when passing an invalid ID", async function () {
+      const result = await productService.remove("abc");
+      expect(result.type).to.equal("INVALID_VALUE");
+      expect(result.message).to.equal('"id" must be a number');
+    });
+
+    afterEach(function () {
+      sinon.restore();
+    });
+  });
 });

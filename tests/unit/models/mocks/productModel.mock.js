@@ -11,7 +11,6 @@ const productList = [
     id: 3,
     name: "Escudo do Capitão América",
   },
-
 ];
 
 const searchProductByName = [{
@@ -24,8 +23,14 @@ const newProduct = {
   name: "Armadura do Homem de Ferro",
 };
 
+const updateProduct = {
+  id: 1,
+  name: "Armadura do Batman"
+}
+
 module.exports = {
   productList,
   searchProductByName,
   newProduct,
+  updateProduct
 };
