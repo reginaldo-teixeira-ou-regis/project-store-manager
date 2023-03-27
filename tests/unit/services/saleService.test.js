@@ -2,12 +2,14 @@ const { expect } = require("chai");
 const sinon = require("sinon");
 const { saleService } = require("../../../src/services");
 const { saleModel, productModel } = require("../../../src/models");
+
 const {
   salesList,
   salesIdList,
   newSaleProduct,
   newSale
 } = require("./mocks/saleService.mock");
+
 const validations = require('../../../src/services/validations/validationsInputValues')
 
 describe("Checking sale service", function () {

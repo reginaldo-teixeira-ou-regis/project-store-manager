@@ -36,10 +36,32 @@ const findByIdJoinSalesProduct = async (id) => {
   return result;
 };
 
+const update = async (sale, id) => {
+  const query = 'UPDATE sales_products SET quantity = ? WHERE sale_id = ? AND product_id = ? ';
+  const [{ insertId }] = await connection.execute(
+    query,
+    [sale.quantity, id, sale.productId],
+  );
+  return insertId;
+};
+
+const removeValueIdSale = async (id) => {
+  const query = 'DELETE FROM sales WHERE id = ?';
+  await connection.execute(query, [id]);
+};
+
+const removeSalesProduct = async (id) => {
+  const query = 'DELETE FROM sales_products WHERE sale_id = ?';
+  await connection.execute(query, [id]);
+};
+
 module.exports = {
   insertDateSale,
   insertValueSale,
   findAll,
   findByIdValueSale,
   findByIdJoinSalesProduct,
+  update,
+  removeValueIdSale,
+  removeSalesProduct,
 };
