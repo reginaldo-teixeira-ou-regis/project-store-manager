@@ -8,7 +8,7 @@ const {
   salesIdList,
   newSaleProduct,
   newSale
-} = require("../../mocks/sale.mock");
+} = require("../mocks/sale.mock");
 
 const validations = require('../../../src/services/validations/validationsInputValues')
 

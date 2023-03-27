@@ -7,7 +7,7 @@ const {
   salesIdList,
   saleProductsList,
   newSaleProductModel,
-} = require("../../mocks/sale.mock");
+} = require("../mocks/sale.mock");
 
 describe("Tests of unit of the Sale Model", function () {
   describe("Tests of unit of the Sale Model", function () {
