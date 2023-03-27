@@ -6,8 +6,8 @@ const {
   salesList,
   salesIdList,
   saleProductsList,
-  newSaleProduct
-} = require("./mocks/saleModel.mock");
+  newSaleProductModel,
+} = require("../../mocks/sale.mock");
 
 describe("Tests of unit of the Sale Model", function () {
   describe("Tests of unit of the Sale Model", function () {
@@ -43,8 +43,8 @@ describe("Tests of unit of the Sale Model", function () {
 
     it("Registering a new sale", async function () {
       sinon.stub(connection, "execute").resolves([{ insertId: 1 }]);
-      const result = await saleModel.insertValueSale(newSaleProduct, 2);
-      expect(result).to.be.deep.equal({...newSaleProduct});
+      const result = await saleModel.insertValueSale(newSaleProductModel, 2);
+      expect(result).to.be.deep.equal({...newSaleProductModel,});
     });
 
     afterEach(function () {

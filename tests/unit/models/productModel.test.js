@@ -7,7 +7,7 @@ const {
   searchProductByName,
   newProduct,
   updateProduct,
-} = require('./mocks/productModel.mock');
+} = require('../../mocks/product.mock');
 
 describe('Tests of unit of the Model of the products', function () {
   it('Retrieving the product list', async function () {

@@ -32,7 +32,26 @@ const saleProductsList = [
   },
 ];
 
+const newSale  = [
+  { productId: 1, quantity: 2 },
+  { productId: 3, quantity: 4 }
+];
+
 const newSaleProduct = {
+  id: 2,
+  itemsSold: [
+    {
+      productId: 1,
+      quantity: 2,
+    },
+    {
+      productId: 3,
+      quantity: 4
+    }
+  ]
+};
+
+const newSaleProductModel = {
   productId: 1,
   quantity: 1,
 };
@@ -41,5 +60,7 @@ module.exports = {
   salesList,
   salesIdList,
   saleProductsList,
+  newSale,
   newSaleProduct,
+  newSaleProductModel,
 };
