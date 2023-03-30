@@ -157,4 +157,3 @@ describe("Checking sale service", function () {
     });
   });
 });
-grgrg
