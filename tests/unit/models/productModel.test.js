@@ -43,7 +43,6 @@ describe('Tests of unit of the Model of the products', function () {
   it('Deleting an existing product', async () => {
     sinon.stub(connection, 'execute').resolves([{ insertId: 1 }])
     const result = await productModel.remove(updateProduct);
-    console.log(result);
     expect(result).to.equal(undefined);
   });
 

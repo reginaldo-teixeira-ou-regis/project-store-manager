@@ -7,7 +7,7 @@ chai.use(sinonChai);
 
 const { saleService } = require("../../../src/services");
 const { saleController } = require("../../../src/controllers");
-const { salesList, salesIdList } = require("../mocks/sale.mock");
+const { salesList, salesIdList, saleUpdate, saleProductsList } = require("../mocks/sale.mock");
 
 describe('Unit test of the saleController', function () {
   describe('Listing sales', function () {
@@ -133,4 +133,89 @@ describe('Unit test of the saleController', function () {
       sinon.restore();
     });
   });
+
+  describe('Updating a sale', function () {
+    it('When passing a non-existent ID, it returns an error with status 404', async function () {
+      const res = {};
+      const req = {
+        params: 11111,
+      };
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+
+      sinon.stub(saleService, 'update').resolves({
+        type: 'SALE_NOT_FOUND',
+        message: 'Sale not found',
+      });
+
+      await saleController.update(req, res);
+
+      expect(res.status).to.have.been.calledWith(404);
+      expect(res.json).to.have.been.calledWith({ message: 'Sale not found' });
+    });
+
+    it('When passing an existing ID returns sale with status 200', async function () {
+      const res = {};
+      const req = {
+        params: 1,
+        body: saleProductsList
+      };
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+
+      sinon.stub(saleService, 'update').resolves({
+        type: null,
+        message: saleUpdate
+      });
+
+      await saleController.update(req, res);
+
+      expect(res.status).to.have.been.calledWith(200);
+      expect(res.json).to.have.been.calledWith(saleUpdate);
+    });
+
+    afterEach(function () {
+      sinon.restore();
+    });
+  })
+
+  describe('Removing a sale', function () {
+    it('When passing a non-existent ID, it returns an error with status 404', async function () {
+      const res = {};
+      const req = {
+        params: 11111,
+      };
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+
+      sinon.stub(saleService, 'remove').resolves({
+        type: 'PRODUCT_NOT_FOUND',
+        message: 'Product not found',
+      });
+
+      await saleController.remove(req, res);
+
+      expect(res.status).to.have.been.calledWith(404);
+      expect(res.json).to.have.been.calledWith({ message: 'Product not found' });
+    })
+
+    it('When passing an existing ID returns a status 204', async function () {
+      const res = {};
+      const req = {
+        params: 1,
+      };
+      res.status = sinon.stub().returns(res);
+      res.end = sinon.stub().returns();
+
+      sinon.stub(saleService, 'remove').resolves({ type: null });
+
+      await saleController.remove(req, res);
+
+      expect(res.status).to.have.been.calledWith(204);
+    })
+
+    afterEach(function () {
+      sinon.restore();
+    });
+  })
 });

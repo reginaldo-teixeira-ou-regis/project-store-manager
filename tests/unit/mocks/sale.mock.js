@@ -32,6 +32,22 @@ const saleProductsList = [
   },
 ];
 
+const saleUpdateDate = [
+  {
+    id: 1,
+    date: "2021-05-09T09:47:37.000Z",
+  },
+  {
+    id: 2,
+    date: "2021-05-09T09:47:58.000Z",
+  },
+];
+
+const saleUpdate = {
+  saleId: 1,
+  itemsUpdated: [...saleProductsList]
+};
+
 const newSale  = [
   { productId: 1, quantity: 2 },
   { productId: 3, quantity: 4 }
@@ -60,6 +76,8 @@ module.exports = {
   salesList,
   salesIdList,
   saleProductsList,
+  saleUpdate,
+  saleUpdateDate,
   newSale,
   newSaleProduct,
   newSaleProductModel,
